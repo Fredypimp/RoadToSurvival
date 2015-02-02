@@ -40,13 +40,24 @@ buttonQuit = sprite_add("data/menu/qui.png",1,false,false,0,0);
 // Then reads the informations from the current option file
 file_rename("data1.dat","data1.ini");
 ini_open("data1.ini");
+
+globalvar playerName;
+playerName = ini_read_string("Player","name","Player");
+
+globalvar musicMuted, soundMuted, enviroMuted, cinematicMuted;
+musicMuted = ini_read_real("Sound","mm", 0);
+soundMuted = ini_read_real("Sound","sm", 0);
+enviroMuted = ini_read_real("Sound","em", 0);
+cinematicMuted = ini_read_real("Sound","cm", 0);
+
 globalvar keyTroop1, keyTroop2, keyTroop3, keyTroop4, keyHero, keyMerc;
-keyTroop1 = ini_read_real("Keybinds","kT1", 49);
-keyTroop2 = ini_read_real("Keybinds","kT1", 50);
-keyTroop3 = ini_read_real("Keybinds","kT1", 51);
-keyTroop4 = ini_read_real("Keybinds","kT1", 52);
-keyHero = ini_read_real("Keybinds","kT1", 53);
-keyMerc = ini_read_real("Keybinds","kT1", 54);
+keyTroop1 = ini_read_real("Keybinds","kT1", 49); // Troop1 selection
+keyTroop2 = ini_read_real("Keybinds","kT2", 50); // Troop2 selection
+keyTroop3 = ini_read_real("Keybinds","kT3", 51); // Troop3 selection
+keyTroop4 = ini_read_real("Keybinds","kT4", 52); // Troop4 selection
+keyHero = ini_read_real("Keybinds","kT5", 53); // Hero selection
+keyMerc = ini_read_real("Keybinds","kT6", 54); // Mercenaries selection
+
 ini_close();
 file_rename("data1.ini","data1.dat");
 </string>

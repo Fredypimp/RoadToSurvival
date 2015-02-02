@@ -1,2 +1,0 @@
-# RoadToSurvival
-Futuristic RTS
