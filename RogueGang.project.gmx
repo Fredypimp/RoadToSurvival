@@ -16,12 +16,9 @@
       <sprite>sprites\sprMage</sprite>
     </sprites>
     <sprite>sprites\sprWall</sprite>
-    <sprite>sprites\sprCursor</sprite>
-    <sprite>sprites\sprMenu</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bgGrass</background>
-    <background>background\backMenu</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -44,6 +41,7 @@
       <object>objects\objTroop3</object>
       <object>objects\objTroop4</object>
     </objects>
+    <object>objects\objMenuController</object>
     <object>objects\objControl</object>
     <object>objects\objUnit</object>
     <object>objects\objEUnit</object>
@@ -51,7 +49,6 @@
     <object>objects\objSteamControl</object>
     <object>objects\objDungeonGenerator</object>
     <object>objects\objRoof</object>
-    <object>objects\objMenuController</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rmMenu</room>

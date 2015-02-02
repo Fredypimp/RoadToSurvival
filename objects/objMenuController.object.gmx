@@ -25,11 +25,30 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ini_open("test.ini");
-ini_write_real("test","test",1);
-ini_close();
+            <string>// Starts by reading few images
+backgroundImage = background_add("data/menu/back/backMenu.png",false,false);
+background_index[0] = backgroundImage;
 
-show_message(filename_dir("test.ini"));
+cursor_sprite = sprite_add("data/menu/cur.png",1,false,false,0,0);
+
+buttonNewGame = sprite_add("data/menu/new.png",1,false,false,0,0);
+buttonLoadGame = sprite_add("data/menu/loa.png",1,false,false,0,0);
+buttonMultiPlayer = sprite_add("data/menu/mul.png",1,false,false,0,0);
+buttonOptions = sprite_add("data/menu/opt.png",1,false,false,0,0);
+buttonQuit = sprite_add("data/menu/qui.png",1,false,false,0,0);
+
+// Then reads the informations from the current option file
+file_rename("data1.dat","data1.ini");
+ini_open("data1.ini");
+globalvar keyTroop1, keyTroop2, keyTroop3, keyTroop4, keyHero, keyMerc;
+keyTroop1 = ini_read_real("Keybinds","kT1", 49);
+keyTroop2 = ini_read_real("Keybinds","kT1", 50);
+keyTroop3 = ini_read_real("Keybinds","kT1", 51);
+keyTroop4 = ini_read_real("Keybinds","kT1", 52);
+keyHero = ini_read_real("Keybinds","kT1", 53);
+keyMerc = ini_read_real("Keybinds","kT1", 54);
+ini_close();
+file_rename("data1.ini","data1.dat");
 </string>
           </argument>
         </arguments>
