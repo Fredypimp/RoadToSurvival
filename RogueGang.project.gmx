@@ -29,6 +29,13 @@
       <script>scripts\generateSpawnRoom.gml</script>
       <script>scripts\generateRoom.gml</script>
     </scripts>
+    <scripts name="Menu Actions">
+      <script>scripts\doNewGame.gml</script>
+      <script>scripts\doLoadGame.gml</script>
+      <script>scripts\doMultiplayer.gml</script>
+      <script>scripts\doOptions.gml</script>
+      <script>scripts\doQuit.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <objects name="Parents">
