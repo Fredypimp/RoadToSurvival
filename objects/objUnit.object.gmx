@@ -230,27 +230,35 @@ depth = -y;
           <argument>
             <kind>1</kind>
             <string>/// Troop Selection
-if (keyboard_check_pressed(ord("1")))
+if (keyboard_check_pressed(keyTroop1))
 {
     if (troop = 1) selected = true; else selected = false;
 }
-else if (keyboard_check_pressed(ord("2")))
+else if (keyboard_check_pressed(keyTroop2))
 {
     if (troop = 2) selected = true; else selected = false;
 }
-else if (keyboard_check_pressed(ord("3")))
+else if (keyboard_check_pressed(keyTroop3))
 {
     if (troop = 3) selected = true; else selected = false;
 }
-else if (keyboard_check_pressed(ord("4")))
+else if (keyboard_check_pressed(keyTroop4))
 {
     if (troop = 4) selected = true; else selected = false;
 }
-else if (keyboard_check_pressed(ord("A")))
+else if (keyboard_check_pressed(keyHero))
 {
-    selected = true;
+    if (troop = 5) selected = true; else selected = false;
 }
-else if (keyboard_check_pressed(ord("S")))
+else if (keyboard_check_pressed(keyMerc))
+{
+    if (troop = 6) selected = true; else selected = false;
+}
+else if (keyboard_check_pressed(keyTarget) &amp;&amp; selected)
+{
+    // Attack a zone
+}
+else if (keyboard_check_pressed(keyStop) &amp;&amp; selected)
 {
     path_end();
 

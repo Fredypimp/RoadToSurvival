@@ -26,40 +26,70 @@
           <argument>
             <kind>1</kind>
             <string>// Starts by reading few images
-backgroundImage = background_add("data/menu/back/backMenu.png",false,false);
-background_index[0] = backgroundImage;
-
-cursor_sprite = sprite_add("data/menu/cur.png",1,false,false,0,0);
-
-buttonNewGame = sprite_add("data/menu/new.png",1,false,false,0,0);
-buttonLoadGame = sprite_add("data/menu/loa.png",1,false,false,0,0);
-buttonMultiPlayer = sprite_add("data/menu/mul.png",1,false,false,0,0);
-buttonOptions = sprite_add("data/menu/opt.png",1,false,false,0,0);
-buttonQuit = sprite_add("data/menu/qui.png",1,false,false,0,0);
+    backgroundImage = background_add("data/menu/back/backMenu.png",false,false);
+    background_index[0] = backgroundImage;
+    
+    cursor_sprite = sprite_add("data/menu/cur.png",1,false,false,6,6);
+    
+    buttonNewGame = sprite_add("data/menu/new.png",1,false,false,0,0);
+    buttonLoadGame = sprite_add("data/menu/loa.png",1,false,false,0,0);
+    buttonMultiPlayer = sprite_add("data/menu/mul.png",1,false,false,0,0);
+    buttonOptions = sprite_add("data/menu/opt.png",1,false,false,0,0);
+    buttonQuit = sprite_add("data/menu/qui.png",1,false,false,0,0);
 
 // Then reads the informations from the current option file
-file_rename("data1.dat","data1.ini");
-ini_open("data1.ini");
-
-globalvar playerName;
-playerName = ini_read_string("Player","name","Player");
-
-globalvar musicMuted, soundMuted, enviroMuted, cinematicMuted;
-musicMuted = ini_read_real("Sound","mm", 0);
-soundMuted = ini_read_real("Sound","sm", 0);
-enviroMuted = ini_read_real("Sound","em", 0);
-cinematicMuted = ini_read_real("Sound","cm", 0);
-
-globalvar keyTroop1, keyTroop2, keyTroop3, keyTroop4, keyHero, keyMerc;
-keyTroop1 = ini_read_real("Keybinds","kT1", 49); // Troop1 selection
-keyTroop2 = ini_read_real("Keybinds","kT2", 50); // Troop2 selection
-keyTroop3 = ini_read_real("Keybinds","kT3", 51); // Troop3 selection
-keyTroop4 = ini_read_real("Keybinds","kT4", 52); // Troop4 selection
-keyHero = ini_read_real("Keybinds","kT5", 53); // Hero selection
-keyMerc = ini_read_real("Keybinds","kT6", 54); // Mercenaries selection
-
-ini_close();
-file_rename("data1.ini","data1.dat");
+    file_rename("data1.dat","data1.ini");
+    ini_open("data1.ini");
+    
+    globalvar debug;
+    debug = ini_read_real("Game","de",0);
+    
+    globalvar playerName;
+    playerName = ini_read_string("Player","name","Player");
+    
+    globalvar musicMuted, soundMuted, enviroMuted, cinematicMuted;
+    musicMuted = ini_read_real("Sound","mm", 0);
+    soundMuted = ini_read_real("Sound","sm", 0);
+    enviroMuted = ini_read_real("Sound","em", 0);
+    cinematicMuted = ini_read_real("Sound","cm", 0);
+    
+    globalvar keyTroop1, keyTroop2, keyTroop3, keyTroop4, keyHero, keyMerc, keyTarget, keyStop;
+    keyTroop1 = ini_read_real("Keybinds","kT1", 49); // Troop1 selection
+    keyTroop2 = ini_read_real("Keybinds","kT2", 50); // Troop2 selection
+    keyTroop3 = ini_read_real("Keybinds","kT3", 51); // Troop3 selection
+    keyTroop4 = ini_read_real("Keybinds","kT4", 52); // Troop4 selection
+    keyHero = ini_read_real("Keybinds","kT5", 53); // Hero selection
+    keyMerc = ini_read_real("Keybinds","kT6", 54); // Mercenaries selection
+    keyTarget = ini_read_real("Keybinds","kAt", 65); // Attack zone
+    keyStop = ini_read_real("Keybinds","kSt", 83); // "Stop what you're doing"
+    
+    ini_close();
+    file_rename("data1.ini","data1.dat");
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="32">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>instance_create(0,0,objSteamControl);
+instance_create(0,0,objDungeonGenerator);
+room_goto(rmDungeon);
 </string>
           </argument>
         </arguments>

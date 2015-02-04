@@ -37,8 +37,6 @@ points = 0;
 show_debug_message("STEAM: stats initialised");
 
 hasGenerated = false;
-
-cursor_sprite = sprCursor;
 </string>
           </argument>
         </arguments>
