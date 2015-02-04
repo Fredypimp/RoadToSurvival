@@ -28,6 +28,7 @@
             <string>/// Initialisation
 
 //Variables
+hasTargeted = true;
 unitType = unitCrew;
 selected = false;
 troop = 0;
@@ -39,6 +40,7 @@ alarm[0] = 1;
 
 // Action system
 state = stateIdle;
+attacking = false;
 targetObj = noone;
 targetX = -1;
 targetY = -1;
@@ -103,6 +105,54 @@ state = stateIdle;
         </arguments>
       </action>
     </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Show attack animation
+state = stateIdle;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Can attack again
+canAttack = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
@@ -120,7 +170,8 @@ state = stateIdle;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>scrUnitInit(unitType);
+            <string>/// Real unit initialisation
+scrUnitInit(unitType);
 </string>
           </argument>
         </arguments>
@@ -188,22 +239,28 @@ lastXpos = x;
           <argument>
             <kind>1</kind>
             <string>///Actions
-switch(unitType)
+if (attacking)
 {
-    case unitCrew:
+    if (point_distance(x,y,targetX,targetY) &gt; range)
     {
-        break;
+        if (mp_grid_path(grilleMap,movePath,x,y,targetX,targetY,true))
+        {
+            path_start(movePath,walkSpeed,0,false);
+        }
     }
-   
-    case unitMarine:
+    else
     {
-        break;
-    }
-    
-    case unitSpecialist:
-    {
-        //
-        break;
+        path_end();
+        if (canAttack)
+        {
+            if (targetX &gt; x) dir = 1;
+            else dir = -1;
+            
+            state = stateAttack;
+            canAttack = false;
+            alarm[1] = atkSpeed;
+            alarm[2] = room_speed/4;
+        }
     }
 }
 
@@ -232,35 +289,42 @@ depth = -y;
             <string>/// Troop Selection
 if (keyboard_check_pressed(keyTroop1))
 {
-    if (troop = 1) selected = true; else selected = false;
+    if (troop = 1) selected = true;
+    else if (!keyboard_check(vk_control)) selected = false;
 }
 else if (keyboard_check_pressed(keyTroop2))
 {
-    if (troop = 2) selected = true; else selected = false;
+    if (troop = 2) selected = true;
+    else if (!keyboard_check(vk_control)) selected = false;
 }
 else if (keyboard_check_pressed(keyTroop3))
 {
-    if (troop = 3) selected = true; else selected = false;
+    if (troop = 3) selected = true;
+    else if (!keyboard_check(vk_control)) selected = false;
 }
 else if (keyboard_check_pressed(keyTroop4))
 {
-    if (troop = 4) selected = true; else selected = false;
+    if (troop = 4) selected = true;
+    else if (!keyboard_check(vk_control)) selected = false;
 }
 else if (keyboard_check_pressed(keyHero))
 {
-    if (troop = 5) selected = true; else selected = false;
+    if (troop = 5) selected = true;
+    else if (!keyboard_check(vk_control)) selected = false;
 }
 else if (keyboard_check_pressed(keyMerc))
 {
-    if (troop = 6) selected = true; else selected = false;
+    if (troop = 6) selected = true;
+    else if (!keyboard_check(vk_control)) selected = false;
 }
 else if (keyboard_check_pressed(keyTarget) &amp;&amp; selected)
 {
-    // Attack a zone
+    hasTargeted = false;
 }
 else if (keyboard_check_pressed(keyStop) &amp;&amp; selected)
 {
     path_end();
+    if (attacking) attacking = false;
 
     if !(place_empty(x,y))
     {
@@ -356,16 +420,32 @@ if (debutY &gt; lastY)
     debutY = lastY;
     lastY = temp;
 }
-    
+
+
 // Verifie si l'uniter est dans la zone de selection, si oui, la selectionne
 if (x &lt;= lastX &amp;&amp; x &gt;= debutX &amp;&amp; y &lt;= lastY &amp;&amp; y &gt;= debutY)
 {
     selected = true;
 }
+else if (selected &amp;&amp; !hasTargeted)
+{
+    attacking = true;
+    selected = true;
+    targetX = mouse_x;
+    targetY = mouse_y;
+    hasTargeted = true;
+    
+    if (mp_grid_path(grilleMap,movePath,x,y,targetX,targetY,true))
+    {
+        path_start(movePath,walkSpeed,0,false);
+        state = stateMoving;
+    }
+}
 else
 {
     selected = false;
 }
+
 </string>
           </argument>
         </arguments>
@@ -392,7 +472,9 @@ else
 
 if (selected)
 {
-    targetObj = instance_position(targetX, targetY, all);
+    if !(hasTargeted) hasTargeted = true;
+    
+    attacking = false;
     targetX = (floor(mouse_x/tailleCase) * tailleCase) + (tailleCase/2);
     targetY = (floor(mouse_y/tailleCase) * tailleCase) + (tailleCase/2) ;
     
@@ -472,10 +554,6 @@ if !(place_empty(x,y))
         }
     }
     
-    //mp_grid_path(grilleMap,movePath,x,y,targetX,targetY,true);
-    //path_start(movePath,walkSpeed,0,false);
-    //state = stateMoving;
-    
     if (mp_grid_path(grilleMap,movePath,x,y,targetX,targetY,true))
     {
         path_start(movePath,walkSpeed,0,false);
@@ -522,6 +600,13 @@ if (selected)
     // Health bar
     draw_set_alpha(1);
     draw_healthbar(x-4,y-20,x+4,y-18,(life/maxLife)*100,c_red,c_lime,c_lime,0,true,false);
+    
+    if (attacking)
+    {
+        draw_set_color(c_red)
+        draw_set_alpha(0.6);
+        draw_ellipse(targetX-attackZone,targetY-(attackZone/2),targetX+attackZone,targetY+(attackZone/2),false);
+    }
 }
 </string>
           </argument>

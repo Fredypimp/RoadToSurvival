@@ -61,7 +61,7 @@
     <room>rooms\rmMenu</room>
     <room>rooms\rmDungeon</room>
   </rooms>
-  <constants number="13">
+  <constants number="12">
     <constant name="unitCrew">0</constant>
     <constant name="unitMarine">1</constant>
     <constant name="unitSpecialist">2</constant>
@@ -69,8 +69,7 @@
     <constant name="unitGrenadier">4</constant>
     <constant name="stateIdle">0</constant>
     <constant name="stateMoving">1</constant>
-    <constant name="stateGathering">2</constant>
-    <constant name="stateAttack">3</constant>
+    <constant name="stateAttack">2</constant>
     <constant name="tailleCase">8</constant>
     <constant name="gridEmpty">0</constant>
     <constant name="gridWall">1</constant>

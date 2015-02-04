@@ -25,9 +25,23 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Starts by reading few images
-    
-    
+            <string>// Starts everything by downloading the content
+    firstRun = true;
+    firstRunText = "0%";
+    file = noone;
+    if (!file_exists("data1.dat"))
+    {
+        file = http_get_file("http://www.JabeStream.info/files/gameContent.zip", "gameContent.zip"); 
+    }
+    else
+    {
+        firstRun = false;
+    }
+
+if (!firstRun)
+{
+// Once the stuff has been downloaded, reads menu images
+
     var fontSpr = sprite_add("data/menu/fon.idf",131,true,false,0,0);
     globalvar basicFont;
     basicFont = font_add_sprite(fontSpr,32,false,1);
@@ -67,6 +81,30 @@
     
     ini_close();
     file_rename("data1.ini","data1.dat");
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>firstRun = false;
 </string>
           </argument>
         </arguments>
@@ -112,6 +150,48 @@ for (var i=0;i&lt;5;i++)
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="62">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (ds_map_find_value(async_load, "id") == file)
+{
+    var status = ds_map_find_value(async_load, "status");
+    if (status == 1)
+    {
+        var total = ds_map_find_value(async_load, "contentLength");
+        var current = ds_map_find_value(async_load, "sizeDownloaded");
+        
+        var percent = (total/current)*100;
+        firstRunText = string(current)+"/"+string(total)+" - "+string(percent)+"%";
+    }
+    
+    if (status == 0)
+    {
+        var path = ds_map_find_value(async_load, "result");
+        var files = zip_unzip(path, working_directory);
+        file_delete("gameContent.zip");
+        game_restart();
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -129,33 +209,46 @@ for (var i=0;i&lt;5;i++)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw buttons
-var mX = mouse_x, mY = mouse_y;
-
-draw_set_font(basicFont);
-
-var butX = 624, firstButtonY = 144, buttonSpaces = 56;
-var text;
-text[0] = "New Game";
-text[1] = "Load Game";
-text[2] = "Multiplayer";
-text[3] = "Options";
-text[4] = "Quit";
-
-// Draws all the buttons at once
-for (var i=0;i&lt;5;i++)
+            <string>if (!firstRun)
 {
-    var butY = firstButtonY+(buttonSpaces*i);
+// Draw buttons
+    var mX = mouse_x, mY = mouse_y;
     
-    if (mX &gt;= butX &amp;&amp; mX &lt;= room_width &amp;&amp; mY &gt;= butY &amp;&amp; mY &lt;= (butY+sprite_get_height(buttonBase)))
+    draw_set_font(basicFont);
+    
+    var butX = 624, firstButtonY = 144, buttonSpaces = 56;
+    var text;
+    text[0] = "New Game";
+    text[1] = "Load Game";
+    text[2] = "Multiplayer";
+    text[3] = "Options";
+    text[4] = "Quit";
+    
+    // Draws all the buttons at once
+    for (var i=0;i&lt;5;i++)
     {
-        draw_sprite(buttonBase,1,butX,butY);
+        var butY = firstButtonY+(buttonSpaces*i);
+        
+        if (mX &gt;= butX &amp;&amp; mX &lt;= room_width &amp;&amp; mY &gt;= butY &amp;&amp; mY &lt;= (butY+sprite_get_height(buttonBase)))
+        {
+            draw_sprite(buttonBase,1,butX,butY);
+        }
+        else
+        {
+            draw_sprite(buttonBase,0,butX,butY);
+        }
+        draw_text(butX+2,butY+4,text[i]);
     }
-    else
-    {
-        draw_sprite(buttonBase,0,butX,butY);
-    }
-    draw_text(butX+2,butY+4,text[i]);
+}
+else
+{   
+    draw_set_colour(c_white);
+    
+    var text = "Please wait, downloading first run stuff#";
+    var tX = (room_width/2) - (string_width(text)/2)
+    var tY = (room_height/2);
+    
+    draw_text(tX,tY,text+firstRunText);
 }
 </string>
           </argument>

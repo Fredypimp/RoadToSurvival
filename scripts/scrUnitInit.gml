@@ -16,7 +16,8 @@ switch(unitType)
         sprite_index = sprCrew;
         //combat
         canAttack = true;
-        range = 0.5 * tailleCase;
+        attackZone = 8;
+        range = 8 * tailleCase;
         damage = round(random_range(25,50));
         splash = 0;
         break;
@@ -33,7 +34,8 @@ switch(unitType)
         sprite_index = sprMarine;
         //combat
         canAttack = true;
-        range = 1 * tailleCase;
+        attackZone = 16;
+        range = 12 * tailleCase;
         damage = round(random_range(50,75));
         splash = 0;
         break;
@@ -50,6 +52,7 @@ switch(unitType)
         sprite_index = sprSpecialist;
         //combat
         canAttack = true;
+        attackZone = 12;
         range = 10 * tailleCase;
         damage = round(random_range(20,30));
         splash = 0;
@@ -67,6 +70,7 @@ switch(unitType)
         sprite_index = sprHeavy;
         //combat
         canAttack = true;
+        attackZone = 8;
         range = 2 * tailleCase;
         damage = round(random_range(100,150));
         splash = 1;
@@ -84,6 +88,7 @@ switch(unitType)
         sprite_index = sprMage;
         //combat
         canAttack = true;
+        attackZone = 24;
         range = 8 * tailleCase;
         damage = round(random_range(15,35));
         splash = 1;

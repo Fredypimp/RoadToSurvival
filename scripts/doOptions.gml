@@ -14,14 +14,8 @@ if (debug)
     
     if (ini_key_exists(optionSection,option))
     {
-        if (optionSection != "Player")
-        {
-            ini_write_real(optionSection,option,real(value));
-        }
-        else
-        {
-            ini_write_string(optionSection,option,value);
-        }
+        ini_write_real(optionSection,option,real(value));
+
         show_message("Changes successfully made");
     }
     else
